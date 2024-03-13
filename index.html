@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Команда</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+            transform: skew(-10deg);
+            margin-top: 20px;
+        }
+
+        .game-container__team {
+            display: flex;
+            height: 100%;
+        }
+
+        .game-container__team-serving {
+          width: 20px;
+        }
+
+        .game-container__team-name {
+          width: 250px;
+          background-color: blue;
+          color: white;
+          border-bottom: 1px solid white;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding-left: 20px;
+          box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.75);
+        }
+
+
+        .arrow-up::before {
+          padding-right: 5px;
+           content: '\27A4';
+        }
+
+        .game-container__team-score, .game-container__team-set {
+          background-color: white;
+          font-weight: bold;
+          width: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid;
+            box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.75);
+        }
+
+        .game-container__team-score {
+            background-color: #d9d9d9;
+              box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.75);
+        }
+
+        .form-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .game-controls {
+          padding: 20px;
+        }
+
+        .game-controls__team-scores {
+          display: flex;
+          gap: 4px;
+        }
+
+        .game-controls__team-score {
+          width: 40px;
+          height: 40px;
+          border: 1px solid;
+        }
+
+        input[type="number"] {
+          width: 50px;
+
+        }
+    </style>
+</head>
+<body>
+  <div class="game">
+    <div class="game-container">
+        <div class="game-container__team">
+            <div class="game-container__team-name">
+                <div class="game-container__team-serving" id="firstTeamServing"></div>
+                <div  id="firstTeamName"></div>
+            </div>
+
+
+            <div class="game-container__team-set" id="firstTeamSets">0</div>
+
+            <div class="game-container__team-score" id="firstTeamSet-1"></div>
+            <div class="game-container__team-score" id="firstTeamSet-2"></div>
+            <div class="game-container__team-score" id="firstTeamSet-3"></div>
+            <div class="game-container__team-score" id="firstTeamSet-4"></div>
+            <div class="game-container__team-score" id="firstTeamSet-5"></div>
+        </div>
+
+        <div class="game-container__team">
+            <div class="game-container__team-name">
+                <div class="game-container__team-serving" id="secondTeamServing"></div>
+                  <div  id="secondTeamName"></div>
+            </div>
+
+            <div class="game-container__team-set" id="secondTeamSets">0</div>
+            <div class="game-container__team-score" id="secondTeamSet-1"></div>
+            <div class="game-container__team-score" id="secondTeamSet-2"></div>
+            <div class="game-container__team-score" id="secondTeamSet-3"></div>
+            <div class="game-container__team-score" id="secondTeamSet-4"></div>
+            <div class="game-container__team-score" id="secondTeamSet-5"></div>
+        </div>
+    </div>
+  </div>
+
+
+
+<div class="game-controls mt-3">
+  <div class="">
+    1-я команда:
+  </div>
+  <div class="form-group">
+    <label for="inputFirstTeamName">Название команды:</label>
+    <input type="text" id="inputFirstTeamName">
+
+    <div class="game-controls__team-scores">
+      <label for="inputFirstTeamSet">Счет в партиях:</label>
+
+
+      <button class="btn btn-secondary" id="firstTeamMinusScore"><i class="fa fa-minus"></i></button>
+      <button class="btn btn-primary" id="firstTeamPlusScore"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <div class="">
+    2-я команда:
+  </div>
+  <div class="form-group">
+    <label for="inputSecondTeamName">Название команды:</label>
+    <input type="text" id="inputSecondTeamName">
+
+    <div class="game-controls__team-scores">
+      <label for="inputFirstTeamSet">Счет в партиях:</label>
+
+      <button class="btn btn-secondary" id="secondTeamMinusScore"><i class="fa fa-minus"></i></button>
+      <button class="btn btn-primary" id="secondTeamPlusScore"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  Кто подает:
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="teamRadio" id="team1Radio">
+    <label class="form-check-label" for="team1Radio">1-я команда</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="teamRadio" id="team2Radio">
+    <label class="form-check-label" for="team2Radio">2-я команда</label>
+  </div>
+
+
+</div>
+
+<script>
+   const firstTeamServing = document.getElementById('firstTeamServing');
+   const secondTeamServing = document.getElementById('secondTeamServing');
+
+   const firstTeamName = document.getElementById('firstTeamName');
+   const secondTeamName = document.getElementById('secondTeamName');
+
+   const firstTeamSets = document.getElementById('firstTeamSets');
+   const secondTeamSets = document.getElementById('secondTeamSets');
+
+
+   const inputFirstTeamName = document.getElementById('inputFirstTeamName');
+   const inputSecondTeamName = document.getElementById('inputSecondTeamName');
+
+   let set = 1, firstTeamScore = 0, secondTeamScore = 0, firstTeamSetsScore = 0, secondTeamSetsScore = 0;
+   updateScores(document.getElementById("firstTeamSet-" + set), firstTeamScore);
+   updateScores(document.getElementById("secondTeamSet-" + set), secondTeamScore);
+
+   inputFirstTeamName.addEventListener('input', function () {
+       updateScores(firstTeamName, inputFirstTeamName.value);
+   });
+   inputSecondTeamName.addEventListener('input', function () {
+       updateScores(secondTeamName, inputSecondTeamName.value);
+   });
+
+   document.getElementById("firstTeamPlusScore").addEventListener("click", () => {
+     firstTeamScore++;
+     updateScores(document.getElementById("firstTeamSet-" + set), firstTeamScore);
+     if (set === 5) {
+       if (firstTeamScore >= 15 && firstTeamScore - 2 >= secondTeamScore) {
+         firstTeamSetsScore++;
+         updateScores(firstTeamSets, firstTeamSetsScore);
+         secondTeamScore = 0;
+         firstTeamScore = 0;
+       }
+     }
+     if (firstTeamScore >= 25 && firstTeamScore - 2 >= secondTeamScore) {
+       set++;
+       firstTeamSetsScore++;
+       updateScores(firstTeamSets, firstTeamSetsScore);
+       secondTeamScore = 0;
+       firstTeamScore = 0;
+       updateScores(document.getElementById("firstTeamSet-" + set), firstTeamScore);
+       updateScores(document.getElementById("secondTeamSet-" + set), secondTeamScore);
+     }
+   });
+
+   document.getElementById("firstTeamMinusScore").addEventListener("click", () => {
+     firstTeamScore--;
+     updateScores(document.getElementById("firstTeamSet-" + set), firstTeamScore);
+   });
+
+   document.getElementById("secondTeamPlusScore").addEventListener("click", () => {
+     secondTeamScore++;
+     updateScores(document.getElementById("secondTeamSet-" + set), secondTeamScore);
+     if (set === 5) {
+       if (secondTeamScore >= 15 && secondTeamScore - 2 >= firstTeamScore) {
+         secondTeamSetsScore++;
+         updateScores(secondTeamSets, secondTeamSetsScore);
+         secondTeamScore = 0;
+         firstTeamScore = 0;
+       }
+     }
+     if (secondTeamScore >= 25 && secondTeamScore - 2 >= firstTeamScore) {
+       set++;
+       secondTeamSetsScore++;
+       updateScores(secondTeamSets, secondTeamSetsScore);
+       secondTeamScore = 0;
+       firstTeamScore = 0;
+       updateScores(document.getElementById("firstTeamSet-" + set), firstTeamScore);
+       updateScores(document.getElementById("secondTeamSet-" + set), secondTeamScore);
+     }
+   });
+
+   document.getElementById("secondTeamMinusScore").addEventListener("click", () => {
+     secondTeamScore--;
+     updateScores(document.getElementById("secondTeamSet-" + set), secondTeamScore);
+   });
+
+   // Функция для обновления значений в блоках game-container__team
+   function updateScores(teamBlock, value) {
+     teamBlock.textContent = value;
+   }
+
+   const team1Radio = document.getElementById('team1Radio');
+   const team2Radio = document.getElementById('team2Radio');
+   team1Radio.addEventListener('change', function () {
+        updateArrow();
+    });
+
+    team2Radio.addEventListener('change', function () {
+        updateArrow();
+    });
+
+    function updateArrow() {
+        if (team1Radio.checked) {
+            firstTeamServing.classList.add('arrow-up');
+            secondTeamServing.classList.remove('arrow-up');
+        } else {
+            secondTeamServing.classList.add('arrow-up');
+            firstTeamServing.classList.remove('arrow-up');
+        }
+    }
+</script>
+
+</body>
+</html>
